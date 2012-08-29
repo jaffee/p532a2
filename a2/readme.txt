@@ -1,0 +1,1 @@
+Please, create a folder for your team's solution to assignment 2 and commit all code into it. The format of the name should be 'username1-username2-username3-...'. That is, the usernames of everyone in the team separated by dashes.
