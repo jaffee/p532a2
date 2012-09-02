@@ -9,7 +9,7 @@ public class Breakout {
 	private ArrayList<CommandGroup> commandGroupStack; // list of all command groups for undo and replay
 	private CommandGroup commands; //current working group of commands for a single loop iteration
 	private Board board; //JPanel and JFrame are in here
-	private static final int TIMER_DELAY = 50;
+	private static final int TIMER_DELAY = 20;
 	public Breakout(Board board){
 		moveables = new ArrayList<Moveable>();
 		drawables = new DrawGroup();
@@ -25,7 +25,7 @@ public class Breakout {
 			drawables.draw(board.getCanvas());
 			board.getPanel().repaint();
 			try{
-				Thread.sleep(25);
+				Thread.sleep(Breakout.TIMER_DELAY);
 			}
 			catch(InterruptedException e){
 				System.out.println(e);

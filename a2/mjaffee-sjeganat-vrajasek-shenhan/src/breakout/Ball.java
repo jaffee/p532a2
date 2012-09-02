@@ -59,6 +59,10 @@ public class Ball implements Moveable, Drawable {
 	public void setSpeedY(double y){
 		speedY = y;
 	}
+	public void setSpeed(double x, double y){
+		speedX = x;
+		speedY = y;
+	}
 	public RectangularShape getBounds(){
 		return this.ballShape.getBounds();
 	}

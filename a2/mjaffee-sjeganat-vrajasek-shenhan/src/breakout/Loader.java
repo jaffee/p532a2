@@ -16,6 +16,7 @@ public class Loader {
 		breakout.registerDrawable(paddle);
 		
 		Ball ball = new Ball();
+		ball.setSpeed(3, 3);
 		BallMoveCommand ballMoveCommand = new BallMoveCommand(ball);
 		breakout.registerCommand(ballMoveCommand);
 		breakout.registerDrawable(ball);
