@@ -5,20 +5,32 @@ import javax.swing.Timer;
 
 public class Breakout {
 	private ArrayList<Moveable> moveables; //moveables need to be passed to execute so that objects can do collision detection against them
-	private ArrayList<Drawable> drawables; //drawables will be looped through and drawn after each main game loop iteration
+	private DrawGroup drawables; //drawables will be looped through and drawn after each main game loop iteration
 	private ArrayList<CommandGroup> commandGroupStack; // list of all command groups for undo and replay
 	private CommandGroup commands; //current working group of commands for a single loop iteration
 	private Board board; //JPanel and JFrame are in here
 	private static final int TIMER_DELAY = 50;
 	public Breakout(Board board){
 		moveables = new ArrayList<Moveable>();
-		drawables = new ArrayList<Drawable>();
+		drawables = new DrawGroup();
 		commands = new CommandGroup();
 		commandGroupStack = new ArrayList<CommandGroup>();
 		commandGroupStack.add(commands);
 		this.board = board;
 	}
 	public void start(){
+		while(true){
+			commands.execute(moveables);
+			
+			drawables.draw(board.getCanvas());
+			board.getPanel().repaint();
+			try{
+				Thread.sleep(25);
+			}
+			catch(InterruptedException e){
+				System.out.println(e);
+			}
+		}
 		// LOOP
 		//copy command group
 		//execute command group

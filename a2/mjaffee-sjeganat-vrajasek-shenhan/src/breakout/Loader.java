@@ -20,6 +20,8 @@ public class Loader {
 		breakout.registerCommand(ballMoveCommand);
 		breakout.registerDrawable(ball);
 		
+		//
+		
 		breakout.start();
 	}
 
