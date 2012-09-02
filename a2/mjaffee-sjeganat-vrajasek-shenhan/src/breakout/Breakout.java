@@ -1,7 +1,6 @@
 package breakout;
 
 import java.util.ArrayList;
-import javax.swing.Timer;
 
 public class Breakout {
 	private ArrayList<Moveable> moveables; //moveables need to be passed to execute so that objects can do collision detection against them

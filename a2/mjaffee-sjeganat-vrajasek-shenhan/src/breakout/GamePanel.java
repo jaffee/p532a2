@@ -1,12 +1,15 @@
 package breakout;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BufferedImage bufferedImage;
 	
 	public BufferedImage getBufferedImage(){
