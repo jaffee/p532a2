@@ -12,14 +12,14 @@ public class CommandGroup implements Commandable {
 	}
 	public Commandable getCopy(){
 		CommandGroup copy = new CommandGroup();
-		for(int i=0; i<commands.size(); i++){
-			copy.addCommand(commands.get(i).getCopy());
+		for(Commandable c : commands){
+			copy.addCommand(c.getCopy());
 		}
 		return copy;
 	}
 	public void execute(ArrayList<Moveable> moveables){
-		for(int i=0; i<commands.size(); i++){
-			commands.get(i).execute(moveables);
+		for(Commandable c : commands){
+			c.execute(moveables);
 		}
 	}
 	public void undo(){
