@@ -11,6 +11,7 @@ public class Breakout extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	public Breakout(){
+		JFrame jFrame;
 		add(new Board());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,580);
