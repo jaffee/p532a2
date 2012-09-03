@@ -18,7 +18,7 @@ public class Breakout implements KeyListener {
 	private int undoFrames = 10;
 
 
-	private static final int TIMER_DELAY = 20;
+	protected static final int TIMER_DELAY = 20;
 	public Breakout(Board board){
 		moveables = new ArrayList<Moveable>();
 		drawables = new DrawGroup();

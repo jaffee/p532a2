@@ -24,6 +24,11 @@ public class Loader {
 		breakout.registerDrawable(ball);
 		breakout.registerMoveable(ball);
 		
+		Clock clock = new Clock();
+		ClockMoveCommand clockMoveCommand = new ClockMoveCommand(clock);
+		breakout.registerCommand(clockMoveCommand);
+		breakout.registerMoveable(clock);
+		breakout.registerDrawable(clock);
 		//
 		
 		breakout.start();
