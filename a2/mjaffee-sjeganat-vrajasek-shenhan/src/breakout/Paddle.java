@@ -1,6 +1,7 @@
 package breakout;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +30,7 @@ public class Paddle implements Moveable, Drawable {
 		g2D.setColor(this.color);
 		g2D.fill(this.paddleShape);
 	}
-	public void move(ArrayList<Moveable> moveables){
+	public void move(ArrayList<Moveable> moveables, Dimension boardSize){
 		double x = this.paddleShape.getX();
 		x+=this.dx;
 		this.paddleShape.x=x;

@@ -14,12 +14,14 @@ public class Loader {
 		PaddleMoveCommand paddleMoveCommand = new PaddleMoveCommand(paddle); 
 		breakout.registerCommand(paddleMoveCommand);
 		breakout.registerDrawable(paddle);
+		breakout.registerMoveable(paddle);
 		
 		Ball ball = new Ball();
 		ball.setSpeed(3, 3);
 		BallMoveCommand ballMoveCommand = new BallMoveCommand(ball);
 		breakout.registerCommand(ballMoveCommand);
 		breakout.registerDrawable(ball);
+		breakout.registerMoveable(ball);
 		
 		//
 		

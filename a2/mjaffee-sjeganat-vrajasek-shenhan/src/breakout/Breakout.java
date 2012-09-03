@@ -7,7 +7,9 @@ public class Breakout {
 	private DrawGroup drawables; //drawables will be looped through and drawn after each main game loop iteration
 	private ArrayList<CommandGroup> commandGroupStack; // list of all command groups for undo and replay
 	private CommandGroup commands; //current working group of commands for a single loop iteration
-	private Board board; //JPanel and JFrame are in here
+	private Board board; //JPanel and JFrame are in here.
+
+
 	private static final int TIMER_DELAY = 20;
 	public Breakout(Board board){
 		moveables = new ArrayList<Moveable>();
@@ -19,8 +21,7 @@ public class Breakout {
 	}
 	public void start(){
 		while(true){
-			commands.execute(moveables);
-			
+			commands.execute(moveables, board.getPanel().getSize());
 			drawables.draw(board.getCanvas());
 			board.getPanel().repaint();
 			try{

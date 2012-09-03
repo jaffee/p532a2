@@ -1,5 +1,6 @@
 package breakout;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class BallMoveCommand implements Commandable {
@@ -17,12 +18,12 @@ public class BallMoveCommand implements Commandable {
 	public Commandable getCopy(){
 		return new BallMoveCommand(this.getBall());
 	}
-	public void execute(ArrayList<Moveable> moveables){
+	public void execute(ArrayList<Moveable> moveables, Dimension boardSize){
 		this.prevX = ball.getX();
 		this.prevY = ball.getY();
 		this.prevSpeedX = ball.getSpeedX();
 		this.prevSpeedY = ball.getSpeedY();
-		ball.move(moveables);
+		ball.move(moveables, boardSize);
 	}
 	public void undo(){
 		ball.setX(prevX);
