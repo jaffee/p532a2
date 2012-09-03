@@ -17,6 +17,7 @@ public class Board {
 	public Board(){
 		this.frame = new JFrame();
 		this.panel = new GamePanel();
+		frame.setFocusable(true);
 		panel.setFocusable(true);
 		panel.setBackground(Board.DEFAULT_BGCOLOR);
 		panel.setDoubleBuffered(true);

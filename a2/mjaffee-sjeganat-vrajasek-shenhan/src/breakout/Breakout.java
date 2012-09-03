@@ -1,13 +1,19 @@
 package breakout;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Breakout {
+public class Breakout implements KeyListener {
 	private ArrayList<Moveable> moveables; //moveables need to be passed to execute so that objects can do collision detection against them
 	private DrawGroup drawables; //drawables will be looped through and drawn after each main game loop iteration
 	private ArrayList<CommandGroup> commandGroupStack; // list of all command groups for undo and replay
 	private CommandGroup commands; //current working group of commands for a single loop iteration
 	private Board board; //JPanel and JFrame are in here.
+	
+	private boolean undoPressed = false;
+	private boolean resetPressed = false;
+	private int undoFrames = 10;
 
 
 	private static final int TIMER_DELAY = 20;
@@ -18,10 +24,18 @@ public class Breakout {
 		commandGroupStack = new ArrayList<CommandGroup>();
 		commandGroupStack.add(commands);
 		this.board = board;
+		board.getFrame().addKeyListener(this);
+		System.out.println("added kehy listnesner");
 	}
 	public void start(){
 		while(true){
+			if(undoPressed)
+				handleUndo();
+			if(resetPressed)
+				handleReset();
 			commands.execute(moveables, board.getPanel().getSize());
+			commandGroupStack.add(commands);
+			commands = (CommandGroup) commandGroupStack.get(commandGroupStack.size()-1).getCopy();
 			drawables.draw(board.getCanvas());
 			board.getPanel().repaint();
 			try{
@@ -31,17 +45,30 @@ public class Breakout {
 				System.out.println(e);
 			}
 		}
-		// LOOP
-		//copy command group
-		//execute command group
-		//push command group to commandGroupStack
-		
-		//on an undo, pop the commandGroupStack by some pre-defined amount and throw away the popped entries
-		//execute undo() on the new top Group and continue
-		
-		//on a start/reset, throw away the whole commandGroupStack, but first call undo on the first element to reset the game state
-		
-		//on a replay, move to the bottom of the commandGroupStack and loop through it calling undo on each group and then sleeping for TIMER_DELAY
+	}
+	private void handleUndo(){
+		undoPressed=false;
+		int undoFrames;
+		int stackSize = commandGroupStack.size();
+		if(stackSize<=this.undoFrames)
+			undoFrames = stackSize - 1;
+		else
+			undoFrames = this.undoFrames;
+		int i;
+		for(i = stackSize -1; i >= stackSize - undoFrames; i--){
+			commandGroupStack.remove(i);
+		}
+		commands = commandGroupStack.get(i);
+		commands.undo();
+	}
+	private void handleReset(){
+		resetPressed=false;
+		int i = commandGroupStack.size() - 1;
+		for (; i>0; i--){
+			commandGroupStack.remove(i);
+		}
+		commands=commandGroupStack.get(0);
+		commands.undo();
 	}
 	
 	public void registerMoveable(Moveable m){
@@ -62,8 +89,33 @@ public class Breakout {
 	public void unregisterCommand(Commandable command){
 		this.commands.removeCommand(command);
 	}
+	public void registerKeyListener(KeyListener l){
+		this.board.getFrame().addKeyListener(l);
+	}
+	public void unregisterKeyListener(KeyListener l){
+		this.board.getFrame().removeKeyListener(l);
+	}
 	
 	public void draw(){
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyChar()=='u'){
+			this.undoPressed=true;
+		}
+		if(e.getKeyChar()=='r'){
+			this.resetPressed=true;
+		}
 		
 	}
 

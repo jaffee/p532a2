@@ -8,6 +8,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 
 
@@ -15,18 +17,20 @@ import java.util.ArrayList;
 public class Ball implements Moveable, Drawable {
 	private double speedX, speedY;
 	private Color color;
+	private HashMap<Moveable, Integer> collidedWith;
 	private static final double DEFAULT_SIZE = 30;
 	private static final Color DEFAULT_COLOR = Color.black;
 	private Ellipse2D.Double ballShape; // I'd like this to be more generic, but I'm not sure how
+	private static final int NO_COLLIDE = 9;
 	public Ball(){
 		ballShape = new Ellipse2D.Double(100, 100, Ball.DEFAULT_SIZE, Ball.DEFAULT_SIZE);
 		speedX = 1;
 		speedY = 1;
 		color = Ball.DEFAULT_COLOR;
+		collidedWith = new HashMap<Moveable, Integer>();
 	}
 	public void move(ArrayList<Moveable> moveables, Dimension boardSize){
-		ballShape.x += speedX;
-		ballShape.y += speedY;
+		
 		double ballRight = ballShape.getMaxX();
 		double ballLeft = ballShape.getMinX();
 		double ballTop = ballShape.getMinY();
@@ -61,6 +65,17 @@ public class Ball implements Moveable, Drawable {
 			if(m==this){
 				continue;
 			}
+			Integer val;
+			try{
+				val = collidedWith.get(m);
+			}
+			catch(NullPointerException e){
+				val = null;
+			}
+			if(val!=null&&val>0){
+				collidedWith.put(m, val-1);
+				continue;
+			}
 			RectangularShape bounds = m.getBounds();
 			RectangularShape ballBounds = this.getBounds();
 			if(ballShape.intersects((Rectangle2D) bounds)){
@@ -85,16 +100,21 @@ public class Ball implements Moveable, Drawable {
 					this.speedX*=-1;
 					this.speedY*=-1;
 				}
+				collidedWith.put(m, new Integer(Ball.NO_COLLIDE));
 			}
 
 		}
+		ballShape.x += speedX;
+		ballShape.y += speedY;
 	}
+	
 	public void draw(Image image){
 		Graphics2D g2D = (Graphics2D) image.getGraphics();
 		g2D.setColor(color);
 		g2D.fill(ballShape);
 		//component.repaint();
 	}
+	
 	public double getX(){
 		return ballShape.x;
 	}

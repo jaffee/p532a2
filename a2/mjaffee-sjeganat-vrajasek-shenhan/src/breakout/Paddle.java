@@ -4,17 +4,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
 
-public class Paddle implements Moveable, Drawable {
+public class Paddle implements Moveable, Drawable, KeyListener {
 	private static final int DEFAULT_WIDTH = 50;
 	private static final int DEFAULT_HEIGHT = 10;
 	private static final int INITIAL_X = 10;
 	private static final int INITIAL_Y = 280;
 	private static final Color DEFAULT_COLOR = Color.black;
+	private double speed = 3;
 	private Color color;
 	private double dx = 0;
 	private double dy = 0;
@@ -53,5 +56,28 @@ public class Paddle implements Moveable, Drawable {
 	}
 	public RectangularShape getBounds(){
 		return this.paddleShape.getBounds();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+			dx=speed;
+		if(e.getKeyCode()==KeyEvent.VK_LEFT)
+			dx=speed*-1;
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+			dx=0;
+		if(e.getKeyCode()==KeyEvent.VK_LEFT)
+			dx=0;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
