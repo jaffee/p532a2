@@ -13,6 +13,7 @@ public class Breakout implements KeyListener {
 	
 	private boolean undoPressed = false;
 	private boolean resetPressed = false;
+	private boolean gamePaused = true;
 	private int undoFrames = 10;
 
 
@@ -25,7 +26,6 @@ public class Breakout implements KeyListener {
 		commandGroupStack.add(commands);
 		this.board = board;
 		board.getFrame().addKeyListener(this);
-		System.out.println("added kehy listnesner");
 	}
 	public void start(){
 		while(true){
@@ -33,6 +33,15 @@ public class Breakout implements KeyListener {
 				handleUndo();
 			if(resetPressed)
 				handleReset();
+			if(gamePaused){
+				try{
+					Thread.sleep(Breakout.TIMER_DELAY);
+				}
+				catch(InterruptedException e){
+					System.out.println(e);
+				}
+				continue;
+			}
 			commands.execute(moveables, board.getPanel().getSize());
 			commandGroupStack.add(commands);
 			commands = (CommandGroup) commandGroupStack.get(commandGroupStack.size()-1).getCopy();
@@ -76,6 +85,7 @@ public class Breakout implements KeyListener {
 	}
 	public void registerDrawable(Drawable d){
 		this.drawables.add(d);
+		drawables.draw(this.board.getCanvas());
 	}
 	public void unregisterMoveable(Moveable m){
 		this.moveables.remove(m);
@@ -115,6 +125,12 @@ public class Breakout implements KeyListener {
 		}
 		if(e.getKeyChar()=='r'){
 			this.resetPressed=true;
+		}
+		if(e.getKeyChar()=='p'){
+			this.gamePaused=!this.gamePaused;
+		}
+		if(e.getKeyChar()=='s'){
+			this.gamePaused=false;
 		}
 		
 	}
