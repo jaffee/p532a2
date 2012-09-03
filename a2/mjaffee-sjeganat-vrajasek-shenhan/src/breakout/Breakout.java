@@ -14,6 +14,7 @@ public class Breakout implements KeyListener {
 	private boolean undoPressed = false;
 	private boolean resetPressed = false;
 	private boolean gamePaused = true;
+	private boolean replayPressed = false;
 	private int undoFrames = 10;
 
 
@@ -34,25 +35,18 @@ public class Breakout implements KeyListener {
 			if(resetPressed)
 				handleReset();
 			if(gamePaused){
-				try{
-					Thread.sleep(Breakout.TIMER_DELAY);
-				}
-				catch(InterruptedException e){
-					System.out.println(e);
-				}
+				sleepForDelay();
 				continue;
+			}
+			if(replayPressed){
+				handleReplay();
 			}
 			commands.execute(moveables, board.getPanel().getSize());
 			commandGroupStack.add(commands);
 			commands = (CommandGroup) commandGroupStack.get(commandGroupStack.size()-1).getCopy();
 			drawables.draw(board.getCanvas());
 			board.getPanel().repaint();
-			try{
-				Thread.sleep(Breakout.TIMER_DELAY);
-			}
-			catch(InterruptedException e){
-				System.out.println(e);
-			}
+			sleepForDelay();
 		}
 	}
 	private void handleUndo(){
@@ -78,6 +72,31 @@ public class Breakout implements KeyListener {
 		}
 		commands=commandGroupStack.get(0);
 		commands.undo();
+	}
+	
+	private void handleReplay(){
+		this.replayPressed = false;
+		for(CommandGroup cg : commandGroupStack){
+			while(gamePaused){
+				if(resetPressed)
+					return;
+				sleepForDelay();
+			}
+			if(resetPressed)
+				return;
+			cg.undo();
+			drawables.draw(board.getCanvas());
+			board.getPanel().repaint();
+			sleepForDelay();
+		}
+	}
+	private void sleepForDelay(){
+		try{
+			Thread.sleep(Breakout.TIMER_DELAY);
+		}
+		catch(InterruptedException e){
+			System.out.println(e);
+		}
 	}
 	
 	public void registerMoveable(Moveable m){
@@ -131,6 +150,9 @@ public class Breakout implements KeyListener {
 		}
 		if(e.getKeyChar()=='s'){
 			this.gamePaused=false;
+		}
+		if(e.getKeyChar()=='y'){
+			this.replayPressed=true;
 		}
 		
 	}
