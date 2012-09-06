@@ -11,7 +11,7 @@ public class Loader {
 		Breakout breakout = new Breakout(board);
 		
 		Paddle paddle = new Paddle();
-		PaddleMoveCommand paddleMoveCommand = new PaddleMoveCommand(paddle); 
+		PaddleMoveCommand paddleMoveCommand = new PaddleMoveCommand(paddle, board.getGamePanel(), breakout.getMoveables()); 
 		breakout.registerCommand(paddleMoveCommand);
 		breakout.registerDrawable(paddle);
 		breakout.registerMoveable(paddle);
@@ -19,13 +19,13 @@ public class Loader {
 		
 		Ball ball = new Ball();
 		ball.setSpeed(3, 3);
-		BallMoveCommand ballMoveCommand = new BallMoveCommand(ball);
+		BallMoveCommand ballMoveCommand = new BallMoveCommand(ball, board.getGamePanel(), breakout.getMoveables());
 		breakout.registerCommand(ballMoveCommand);
 		breakout.registerDrawable(ball);
 		breakout.registerMoveable(ball);
 		
 		Clock clock = new Clock();
-		ClockMoveCommand clockMoveCommand = new ClockMoveCommand(clock);
+		ClockMoveCommand clockMoveCommand = new ClockMoveCommand(clock, board.getGamePanel());
 		breakout.registerCommand(clockMoveCommand);
 		breakout.registerMoveable(clock);
 		breakout.registerDrawable(clock);

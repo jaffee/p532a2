@@ -1,22 +1,21 @@
 package breakout;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
+import java.awt.Component;
 
 public class ClockMoveCommand implements Commandable {
-	
+	private Component gameBoard;
 	private Clock clock;
 	private int prevClockValue;
 
-	public ClockMoveCommand(Clock clock) {
+	public ClockMoveCommand(Clock clock, Component gameBoard) {
+		this.gameBoard = gameBoard;
 		this.clock = clock;
 		this.prevClockValue = clock.getClockValue();
 	}
 
 	@Override
-	public void execute(ArrayList<Moveable> moveables, Dimension boardSize) {
-		clock.move(moveables, boardSize);
-
+	public void execute() {
+		clock.move(null, gameBoard.getSize());
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public class ClockMoveCommand implements Commandable {
 
 	@Override
 	public Commandable getCopy() {
-		return new ClockMoveCommand(this.clock);
+		return new ClockMoveCommand(this.clock, this.gameBoard);
 	}
 
 }

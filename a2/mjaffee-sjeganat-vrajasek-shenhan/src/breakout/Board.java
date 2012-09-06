@@ -9,29 +9,29 @@ import javax.swing.JPanel;
 // we could consider having a gameboard interface that defines functions like getCanvas() and getSize() 
 public class Board {
 	private JFrame frame;
-	private GamePanel panel;
+	private GamePanel gamePanel;
 	private static final int DEFAULT_WIDTH = 460;
 	private static final int DEFAULT_HEIGHT = 410;
 	private static final String DEFAULT_TITLE = "Breakout";
 	private static final Color DEFAULT_BGCOLOR = Color.GREEN;
 	public Board(){
 		this.frame = new JFrame();
-		this.panel = new GamePanel();
+		this.gamePanel = new GamePanel();
 		frame.setFocusable(true);
-		panel.setFocusable(true);
-		panel.setBackground(Board.DEFAULT_BGCOLOR);
-		panel.setDoubleBuffered(true);
-		panel.setSize(Board.DEFAULT_WIDTH, Board.DEFAULT_HEIGHT);
+		gamePanel.setFocusable(true);
+		gamePanel.setBackground(Board.DEFAULT_BGCOLOR);
+		gamePanel.setDoubleBuffered(true);
+		gamePanel.setSize(Board.DEFAULT_WIDTH, Board.DEFAULT_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(Board.DEFAULT_WIDTH, Board.DEFAULT_HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle(Board.DEFAULT_TITLE);
 		frame.setVisible(true);
-		frame.add(this.panel);
+		frame.add(this.gamePanel);
 	}
 	public void setSize(int height, int width){
 		this.frame.setSize(height, width);
-		this.panel.setSize(height, width);
+		this.gamePanel.setSize(height, width);
 	}
 	public void setTitle(String title){
 		frame.setTitle(title);
@@ -40,9 +40,9 @@ public class Board {
 		return this.frame;
 	}
 	public Image getCanvas(){
-		return this.panel.getBufferedImage();
+		return this.gamePanel.getBufferedImage();
 	}
-	public JPanel getPanel(){
-		return this.panel;
+	public JPanel getGamePanel(){
+		return this.gamePanel;
 	}
 }

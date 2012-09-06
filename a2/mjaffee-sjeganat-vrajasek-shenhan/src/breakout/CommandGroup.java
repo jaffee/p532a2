@@ -1,6 +1,5 @@
 package breakout;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class CommandGroup implements Commandable {
@@ -18,9 +17,9 @@ public class CommandGroup implements Commandable {
 		}
 		return copy;
 	}
-	public void execute(ArrayList<Moveable> moveables, Dimension boardSize){
+	public void execute(){
 		for(Commandable c : commands){
-			c.execute(moveables, boardSize);
+			c.execute();
 		}
 	}
 	public void undo(){

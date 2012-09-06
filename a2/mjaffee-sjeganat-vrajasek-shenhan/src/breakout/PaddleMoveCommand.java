@@ -1,23 +1,28 @@
 package breakout;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class PaddleMoveCommand implements Commandable {
 	private Paddle paddle;
+	private Component gameBoard;
+	private ArrayList<Moveable> moveables;
 	private double prev_x, prev_y;
-	public PaddleMoveCommand(Paddle paddle){
+	public PaddleMoveCommand(Paddle paddle, Component gameBoard, ArrayList<Moveable> moveables){
 		this.paddle = paddle;
+		this.gameBoard = gameBoard;
+		this.moveables = moveables;
 		this.prev_x = paddle.getX();
 		this.prev_y = paddle.getY();
 	}
 	public Commandable getCopy(){
-		return new PaddleMoveCommand(this.getPaddle());
+		return new PaddleMoveCommand(this.getPaddle(), this.gameBoard, this.moveables);
 	}
-	public void execute(ArrayList<Moveable> moveables, Dimension boardSize){
+	public void execute(){
 		this.prev_x = paddle.getX();
 		this.prev_y = paddle.getY();
-		paddle.move(moveables, boardSize);
+		paddle.move(moveables, gameBoard.getSize());
 	}
 	public void undo(){
 		paddle.setX(prev_x);

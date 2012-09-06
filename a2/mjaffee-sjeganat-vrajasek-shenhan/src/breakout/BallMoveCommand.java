@@ -1,14 +1,18 @@
 package breakout;
 
-import java.awt.Dimension;
+import java.awt.Component;
 import java.util.ArrayList;
 
 public class BallMoveCommand implements Commandable {
+	private Component gameBoard;
+	private ArrayList<Moveable> moveables;
 	private Ball ball;
 	private double prevX, prevY;
 	private double prevSpeedX, prevSpeedY;
-	public BallMoveCommand(Ball ball){
+	public BallMoveCommand(Ball ball, Component gameBoard, ArrayList<Moveable> moveables){
 		this.ball = ball;
+		this.gameBoard = gameBoard;
+		this.moveables = moveables;
 		this.prevX = ball.getX();
 		this.prevY = ball.getY();
 		this.prevSpeedX = ball.getSpeedX();
@@ -16,14 +20,14 @@ public class BallMoveCommand implements Commandable {
 		
 	}
 	public Commandable getCopy(){
-		return new BallMoveCommand(this.getBall());
+		return new BallMoveCommand(this.getBall(), this.gameBoard, this.moveables);
 	}
-	public void execute(ArrayList<Moveable> moveables, Dimension boardSize){
+	public void execute(){
 		this.prevX = ball.getX();
 		this.prevY = ball.getY();
 		this.prevSpeedX = ball.getSpeedX();
 		this.prevSpeedY = ball.getSpeedY();
-		ball.move(moveables, boardSize);
+		ball.move(moveables, gameBoard.getSize());
 	}
 	public void undo(){
 		ball.setX(prevX);

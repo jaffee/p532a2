@@ -41,11 +41,11 @@ public class Breakout implements KeyListener {
 			if(replayPressed){
 				handleReplay();
 			}
-			commands.execute(moveables, board.getPanel().getSize());
+			commands.execute();
 			commandGroupStack.add(commands);
 			commands = (CommandGroup) commandGroupStack.get(commandGroupStack.size()-1).getCopy();
 			drawables.draw(board.getCanvas());
-			board.getPanel().repaint();
+			board.getGamePanel().repaint();
 			sleepForDelay();
 		}
 	}
@@ -86,7 +86,7 @@ public class Breakout implements KeyListener {
 				return;
 			cg.undo();
 			drawables.draw(board.getCanvas());
-			board.getPanel().repaint();
+			board.getGamePanel().repaint();
 			sleepForDelay();
 		}
 	}
@@ -123,6 +123,10 @@ public class Breakout implements KeyListener {
 	}
 	public void unregisterKeyListener(KeyListener l){
 		this.board.getFrame().removeKeyListener(l);
+	}
+	
+	public ArrayList<Moveable> getMoveables(){
+		return this.moveables;
 	}
 	
 	public void draw(){
