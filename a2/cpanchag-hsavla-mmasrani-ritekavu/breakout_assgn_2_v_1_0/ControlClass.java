@@ -7,9 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -49,14 +48,13 @@ public class ControlClass extends JPanel {
 	private Timer daemon;
 	private int score = 0;
 	private Command command;
-	private Command paddleMoveCommand;
 	private Command paddleRightMoveCommand;
 	private Command paddleLeftMoveCommand;
 	private ArrayList<SavedObjectsStates> savedObjectStates;
 	private boolean undoButtonPressedFirstTime;
 	private int whichPrevBallUndoObject;
-	private boolean mouseReleased;
 	private boolean isReplayChecked;
+	private CommandClass commandClass;
 
 	public ControlClass(ScoreBoard scorePanel, Board board, Brick bricks[], Ball ball, Paddle paddle) {
 		this.board = board;
@@ -80,10 +78,9 @@ public class ControlClass extends JPanel {
 		isReplayChecked = false;
 		savedObjectStates = new ArrayList<SavedObjectsStates>();
 		undoButtonPressedFirstTime = true;
-		mouseReleased = false;
-		paddleMoveCommand = new PaddleMoveCommand(paddle);
 		paddleLeftMoveCommand = new PaddleLeftMoveCommand(paddle);
 		paddleRightMoveCommand = new PaddleRightMoveCommand(paddle);
+		commandClass = new CommandClass();
 		this.setLayout(new GridLayout(4, 1));
 		this.add(start);
 		this.add(pause);
@@ -104,7 +101,7 @@ public class ControlClass extends JPanel {
 	 *            this variable contains the number of bricks in the array
 	 * @param score
 	 *            this variable contains the score of the player */
-	class ButtonHandler implements ActionListener, MouseListener {
+	class ButtonHandler implements ActionListener {
 
 		public void actionPerformed(ActionEvent action) {
 
@@ -121,15 +118,25 @@ public class ControlClass extends JPanel {
 					bricks[i].setHit(false);
 				}
 				scorePanel.setScore("0");
+				
+				
+				Random r=new Random();
+				double d1=0,d2=0;
+				do 
+				{	d1=r.nextDouble();
+					d2=r.nextDouble();
+				} while (!((6-d1*12)<3 || (6-d1*12)>3) && !((6-d2*12)<3 || (6-d2*12)>3));
+				double randomStartX=6-d1*12;
+				double randomStartY=6-d2*12;
 				ball.setX(Constants.BALL_INTIAL_XVALUE);
-				ball.setVelocityX(Constants.BALL_INTIAL_XVELOCITY);
-				ball.setVelocityY(Constants.BALL_INITIAL_YVELOCITY);
+				ball.setVelocityX(randomStartX);
+				ball.setVelocityY(randomStartY);
 				ball.setY(Constants.BALL_INTIAL_YVALUE);
 				paddle.setX(Constants.PADDLE_INTIAL_XVALUE);
 				paddle.setY(Constants.PADDLE_INTIAL_YVALUE);
 				board.requestFocus(true);
-				setCommand(new BallMoveCommand(ball));
-				buttonWasPressed();
+				commandClass.setCommand((new BallMoveCommand(ball)));
+				commandClass.buttonWasPressed();
 				board.draw();
 
 			} else if (action.getActionCommand().equals("UNDO")) {
@@ -211,12 +218,6 @@ public class ControlClass extends JPanel {
 			scorePanel.setClock(clockTimeString);
 			board.draw();
 		}
-
-		public void mouseClicked(MouseEvent arg0) {}
-		public void mouseEntered(MouseEvent arg0) {}
-		public void mouseExited(MouseEvent arg0) {}
-		public void mousePressed(MouseEvent arg0) {}
-		public void mouseReleased(MouseEvent arg0) {}
 	}
 
 	/** This class implements serializable object and substitutes the threading
@@ -293,14 +294,6 @@ public class ControlClass extends JPanel {
 
 	}
 
-	public void setCommand(Command command) {
-		this.command = command;
-	}
-
-	public void buttonWasPressed() {
-		command.execute();
-	}
-
 	/** This class listens to the keyboard input and takes care of the paddle
 	 * movement */
 	public class PaddleMovementListener implements KeyListener {
@@ -310,16 +303,16 @@ public class ControlClass extends JPanel {
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				if (paddle.getX() > 0) {
-					setCommand(paddleLeftMoveCommand);
-					buttonWasPressed();
+					commandClass.setCommand((paddleLeftMoveCommand));
+					commandClass.buttonWasPressed();
 				}
 				break;
 
 			case KeyEvent.VK_RIGHT:
 
 				if (paddle.getX() + Constants.PADDLE_WIDTH < Constants.BOARD_LENGTH) {
-					setCommand(paddleRightMoveCommand);
-					buttonWasPressed();
+					commandClass.setCommand((paddleRightMoveCommand));
+					commandClass.buttonWasPressed();
 				}
 				break;
 			}
@@ -408,7 +401,6 @@ public class ControlClass extends JPanel {
 				daemon.stop();
 				JOptionPane.showMessageDialog(null, "Congratulations\nScore:" + score);
 			}
-
 		}
 	}
 }

@@ -2,23 +2,23 @@ package breakout_assgn_2_v_1_0;
 
 public class PaddleMoveCommand implements Command {
 
-	private int prevX;
+	private double prevX;
 	private Paddle paddle;
 
 	PaddleMoveCommand(Paddle paddle) {
 		this.paddle = paddle;
 	}
 
-	public int getPrevX() {
+	public double getPrevX() {
 		return prevX;
 	}
 
-	public void setPrevX(int prevX) {
+	public void setPrevX(double prevX) {
 		this.prevX = prevX;
 	}
 
 	public void execute() {
-		System.out.println("\nExecuted: "+paddle.getX());
+		//System.out.println("\nExecuted: "+paddle.getX());
 		setPrevX(paddle.getX());
 		
 	}

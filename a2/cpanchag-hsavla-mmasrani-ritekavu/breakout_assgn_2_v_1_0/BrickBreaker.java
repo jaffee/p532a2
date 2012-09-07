@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  * @param paddle object of the Paddle class
  */
 
-public class BrickBreaker extends JApplet {
+public class BrickBreaker extends JApplet{
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class BrickBreaker extends JApplet {
 	private Ball ball;
 	private Paddle paddle;
 	private int i, x, j;
-
+	
 	public void init() {
 
 		bricks = new Brick[Constants.BRICK_COUNT];
@@ -64,6 +64,5 @@ public class BrickBreaker extends JApplet {
 		mainPanel.setFocusable(true);
 		mainPanel.requestFocusInWindow();
 		mainPanel.setDoubleBuffered(true);
-	}
-	
+	}	
 }

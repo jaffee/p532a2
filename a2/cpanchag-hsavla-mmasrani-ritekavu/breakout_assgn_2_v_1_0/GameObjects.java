@@ -1,5 +1,7 @@
 package breakout_assgn_2_v_1_0;
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -9,24 +11,26 @@ import javax.swing.ImageIcon;
 
 public class GameObjects {
 
+	protected static Image ball;
+	protected static Image paddle;
 	ImageIcon img;
-	protected int x, y;
+	protected double x, y;
 
-	int getX() {
+	double getX() {
 
 		return x;
 	}
 
-	int getY() {
+	double getY() {
 
 		return y;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setX(double d) {
+		this.x = d;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 }

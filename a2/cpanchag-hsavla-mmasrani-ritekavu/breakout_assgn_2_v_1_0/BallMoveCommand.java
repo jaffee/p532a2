@@ -2,26 +2,26 @@ package breakout_assgn_2_v_1_0;
 
 public class BallMoveCommand implements Command {
 
-	private int prevX, prevY;
+	private double prevX, prevY;
 	private Ball ball;
 
 	BallMoveCommand(Ball ball) {
 		this.ball = ball;
 	}
 
-	public int getPrevX() {
+	public double getPrevX() {
 		return prevX;
 	}
 
-	public void setPrevX(int prevX) {
+	public void setPrevX(double prevX) {
 		this.prevX = prevX;
 	}
 
-	public int getPrevY() {
+	public double getPrevY() {
 		return prevY;
 	}
 
-	public void setPrevY(int prevY) {
+	public void setPrevY(double prevY) {
 		this.prevY = prevY;
 	}
 

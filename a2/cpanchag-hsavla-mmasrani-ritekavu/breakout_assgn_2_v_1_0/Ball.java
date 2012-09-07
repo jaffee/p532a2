@@ -15,8 +15,8 @@ import javax.swing.ImageIcon;
 
 public class Ball extends GameObjects {
 
-	private static Image ball;
-	private int vx, vy;
+	
+	private double vx, vy;
 
 	public Ball(int x, int y) {
 
@@ -29,12 +29,12 @@ public class Ball extends GameObjects {
 		ball = img.getImage();
 	}
 
-	public void setVelocityX(int vx) {
+	public void setVelocityX(double vx) {
 		this.vx = vx;
 
 	}
 
-	public void setVelocityY(int vy) {
+	public void setVelocityY(double vy) {
 		this.vy = vy;
 	}
 
@@ -42,7 +42,7 @@ public class Ball extends GameObjects {
 	 * @return vx X velocity of the ball
 	 */
 
-	public int getVelocityX() {
+	public double getVelocityX() {
 		return vx;
 	}
 
@@ -50,7 +50,7 @@ public class Ball extends GameObjects {
 	 * @return vy Y velocity of the ball
 	 */
 
-	public int getVelocityY() {
+	public double getVelocityY() {
 		return vy;
 	}
 

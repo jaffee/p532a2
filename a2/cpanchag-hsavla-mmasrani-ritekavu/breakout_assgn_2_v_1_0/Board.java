@@ -44,14 +44,14 @@ public class Board extends JPanel {
 		super.paint(g);
 		for (i = 0; i < Constants.BRICK_COUNT; i++) {
 			if (!bricks[i].isHit()) {
-				g.drawImage(bricks[i].gettingImage(), bricks[i].getX(),
-						bricks[i].getY(), null);
+				g.drawImage(bricks[i].gettingImage(), (int) bricks[i].getX(),
+						(int) bricks[i].getY(), null);
 			}
 		}
 
-		g.drawImage(paddle.gettingImage(), paddle.getX(), paddle.getY(), null);
+		g.drawImage(paddle.gettingImage(), (int) paddle.getX(), (int) paddle.getY(), null);
 
-		g.drawImage(ball.gettingImage(), ball.getX(), ball.getY(), null);
+		g.drawImage(ball.gettingImage(),(int) ball.getX(), (int) ball.getY(), null);
 
 	}
 

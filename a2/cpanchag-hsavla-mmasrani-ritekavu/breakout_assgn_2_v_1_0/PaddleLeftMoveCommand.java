@@ -2,14 +2,14 @@ package breakout_assgn_2_v_1_0;
 
 public class PaddleLeftMoveCommand implements Command {
 
-	private int prevX;
+	private double prevX;
 	private Paddle paddle;
 
 	PaddleLeftMoveCommand(Paddle paddle) {
 		this.paddle = paddle;
 	}
 
-	public int getPrevX() {
+	public double getPrevX() {
 		return prevX;
 	}
 

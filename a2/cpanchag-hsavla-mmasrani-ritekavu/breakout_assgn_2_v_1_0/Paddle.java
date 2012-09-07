@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 
 public class Paddle extends GameObjects {
 
-	private static Image paddle;
+	
 
 	public Paddle(int x, int y) {
 
