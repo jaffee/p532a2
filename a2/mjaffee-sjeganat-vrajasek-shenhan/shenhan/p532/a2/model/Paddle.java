@@ -1,5 +1,6 @@
 package shenhan.p532.a2.model;
 
+import acm.graphics.GImage;
 import acm.graphics.GRoundRect;
 import java.awt.Color;
 import shenhan.p532.a2.actions.MyPaddleKeyListener;
@@ -15,17 +16,15 @@ public class Paddle extends GameObject {
 
     private GameController gameController;
     private MyCompoundShapes shapes;
-    private GRoundRect shape;
+    private GImage shape;
 
     public Paddle(GameController gameController) {
         this.gameController = gameController;
         shapes = new MyCompoundShapes(this);
 
-        shape = new GRoundRect(60, 10);
-        this.setBounds(0, 0, 60, 10);
+        shape = new GImage("paddle.png");
+        this.setBounds(0, 0, 64, 22);
 
-        shape.setFillColor(Color.black);
-        shape.setFilled(true);
         shapes.add(shape);
 
         this.gameController.add(shapes);

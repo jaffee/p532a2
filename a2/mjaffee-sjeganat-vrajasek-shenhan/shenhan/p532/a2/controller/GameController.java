@@ -26,7 +26,7 @@ import shenhan.p532.a2.gui.PanelPaddleControl;
 public class GameController extends GraphicsProgram {
 
     public final static int GAME_FRAME_FREQUENCY = 25;//in milliseconds
-    public final static int GAME_UNDO_FRAMES = 60;//discard those frames
+    public final static int GAME_UNDO_FRAMES = 600;//discard those frames
     public final static int GAME_STATE_STARTED = 1;
     public final static int GAME_STATE_STOPPED = 2;
     public final static int GAME_STATE_ENDED = 3;

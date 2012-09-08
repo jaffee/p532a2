@@ -16,17 +16,17 @@ import shenhan.p532.a2.shapes.MyShape;
  * @author han
  */
 public class ProceedGameFrame implements ActionListener {
-    
+
     private static final Logger log = Logger.getLogger(ProceedGameFrame.class.getName());
     private List<GameObject> gameObjects;
     private GameController gameController;
     private AudioClip bounceSound;
     private AudioClip bonusSound;
-    
+
     public ProceedGameFrame(GameController gameController) {
         this.gameObjects = gameController.getGameObjects();
         this.gameController = gameController;
-        
+
         try {
             bounceSound = MediaTools.loadAudioClip("bounce.au");
             bonusSound = MediaTools.loadAudioClip("fire.au");
@@ -36,7 +36,7 @@ public class ProceedGameFrame implements ActionListener {
             log.warn(e);
         }
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         for (GameObject gameObject : gameObjects) {
@@ -45,13 +45,13 @@ public class ProceedGameFrame implements ActionListener {
         }
         checkCollision();
     }
-    
+
     private void checkCollision() {
         checkWallCollision();
         checkBallCollision();
         checkBonusCollision();
     }
-    
+
     private void checkWallCollision() {
         boolean[] hitWall = detectCollidingWall(GameController.GAME_AREA_TOPLEFT_X, GameController.GAME_AREA_TOPLEFT_Y, GameController.GAME_AREA_RIGHTBOTTOM_X, GameController.GAME_AREA_RIGHTBOTTOM_Y);
         if (hitWall[1]) {
@@ -67,24 +67,24 @@ public class ProceedGameFrame implements ActionListener {
             playBounceSound();
         }
     }
-    
+
     private void checkBallCollision() {
         MyShape myShape = gameController.getGameBall().getCollidingGameShape();
-        
+
         if (myShape == null) {
             return;
         }
-        
+
         if (myShape.getOwner() instanceof Brick) {
             Brick brick = (Brick) myShape.getOwner();
-            
+
             Ball gameBall = gameController.getGameBall();
-            
+
             brick.setVisible(false);
-            
+
             gameBall.setDxDy(gameBall.getDxDy()[0], -gameBall.getDxDy()[1]);
             gameController.setBrickNumber(gameController.getBrickNumber() - 1);
-            
+
             if (gameController.getBrickNumber() == 0) {
                 gameController.pauseGame();
                 gameController.displayMessage("Yon Won! Click Start to play again!");
@@ -98,83 +98,97 @@ public class ProceedGameFrame implements ActionListener {
                     brick.getBonusBall().setDxDy(0, 2);
                 }
             }
-            
+
             playBounceSound();
         } else if (myShape.getOwner() instanceof Paddle) {
             Ball gameBall = gameController.getGameBall();
-            
+
             GPoint difBetween = differenceBetweenPoints(gameBall.getPosition(), myShape.getOwner().getPosition());
-            
+
             double newVX = (difBetween.getX() - (gameBall.getBounds()[3] / 2)) / 2;
             double newVY = -(difBetween.getY() / gameBall.getDxDy()[1]);
-            
+
             if (newVY == 0.0) {
                 newVY = 1.0;
             }
-            
+
             newVY = -newVY;
             gameBall.setDxDy(newVX, newVY);
-            
+
             playBounceSound();
         }
     }
-    
+
     private void checkBonusCollision() {
         for (BonusBall bonus : gameController.getBonusBalls()) {
             if (!bonus.isVisible()) {
                 continue;
             }
-            
+
             MyShape myShape = bonus.getCollidingGameShape();
-            
+
             if (myShape == null) {
                 return;
             }
-            
+
             log.debug(bonus.toString());
-            
+
             if (myShape.getOwner() instanceof Paddle) {
                 log.debug(myShape + " " + myShape.getOwner());
-                
+
                 bonus.setVisible(false);
                 int[] bounds = myShape.getOwner().getBounds();
                 myShape.getOwner().setBounds(bounds[0], bounds[1], bounds[2] + 40, bounds[3]);
                 playBonusSound();
             }
-            
-            
+
+
         }
     }
-    
+
     private GPoint differenceBetweenPoints(int[] p1, int[] p2) {
         return new GPoint(p1[0] - p2[0], p1[1] - p2[1]);
     }
-    
+
     private boolean[] detectCollidingWall(int leftTopX, int leftTopY, int rightBottomX, int rightBottomY) {
         Ball gameBall = gameController.getGameBall();
-        
+
         boolean hitWall = false;
         boolean gameEnd = false;
-        if (gameBall.getPosition()[0] >= rightBottomX) {
+        if (gameBall.getPosition()[0] + gameBall.getBounds()[2] > rightBottomX) {
             hitWall = true;
             gameBall.setDxDy(-gameBall.getDxDy()[0], gameBall.getDxDy()[1]);
-        } else if (gameBall.getPosition()[0] <= leftTopX) {
+
+            int outsideWall = gameBall.getPosition()[0] + gameBall.getBounds()[2] - rightBottomX;
+            gameBall.setPosition(gameBall.getPosition()[0] - outsideWall, gameBall.getPosition()[1]);
+
+        } else if (gameBall.getPosition()[0] < leftTopX) {
             hitWall = true;
             gameBall.setDxDy(-gameBall.getDxDy()[0], gameBall.getDxDy()[1]);
-        } else if (gameBall.getPosition()[1] <= leftTopY) {
+
+            int outsideWall = gameBall.getPosition()[0] - leftTopX;
+            gameBall.setPosition(gameBall.getPosition()[0] - outsideWall, gameBall.getPosition()[1]);
+
+        } else if (gameBall.getPosition()[1] < leftTopY) {
             hitWall = true;
             gameBall.setDxDy(gameBall.getDxDy()[0], -gameBall.getDxDy()[1]);
-        } else if (gameBall.getPosition()[1] >= rightBottomY) {
+
+            int outsideWall = gameBall.getPosition()[1] - leftTopY;
+            gameBall.setPosition(gameBall.getPosition()[0], gameBall.getPosition()[1] - outsideWall);
+
+        } else if (gameBall.getPosition()[1] + gameBall.getBounds()[3] > rightBottomY) {
             hitWall = true;
             gameEnd = true;
         }
-        
+
+        //log.debug("left:" + gameBall.getPosition()[0] + " right:" + (gameBall.getPosition()[0] + gameBall.getBounds()[2]) + " top:" + gameBall.getPosition()[1]);
+
         return new boolean[]{hitWall, gameEnd};
     }
-    
+
     private void playBounceSound() {
         new Thread() {
-            
+
             @Override
             public void run() {
                 if (bounceSound != null) {
@@ -183,10 +197,10 @@ public class ProceedGameFrame implements ActionListener {
             }
         }.start();
     }
-    
+
     private void playBonusSound() {
         new Thread() {
-            
+
             @Override
             public void run() {
                 if (bonusSound != null) {

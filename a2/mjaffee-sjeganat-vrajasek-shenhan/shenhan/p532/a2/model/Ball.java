@@ -46,8 +46,7 @@ public class Ball extends GameObject {
 
     @Override
     public void updateDisplay() {
-        shapes.setLocation(getPosition()[0], getPosition()[1]);
-        shapes.move(dx, dy);
+        shapes.setLocation(getPosition()[0] + dx, getPosition()[1] + dy);
         GPoint newPosition = shapes.getLocation();
         setPosition((int) newPosition.getX(), (int) newPosition.getY());
     }
