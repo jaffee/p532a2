@@ -33,6 +33,7 @@ public class Paddle implements Moveable, Drawable, KeyListener {
 		g2D.setColor(this.color);
 		g2D.fill(this.paddleShape);
 	}
+	
 	public void move(ArrayList<Moveable> moveables, Dimension boardSize){
 		double x = this.paddleShape.getX();
 		x+=this.dx;
@@ -42,22 +43,29 @@ public class Paddle implements Moveable, Drawable, KeyListener {
 		this.paddleShape.y=y;
 		//needs collision logic
 	}
+	
+	
 	public double getX(){
 		return this.paddleShape.getX();
 	}
 	public double getY(){
 		return this.paddleShape.getY();
 	}
+	
+	
 	public void setX(double x){
 		this.paddleShape.x = x;
 	}
 	public void setY(double y){
 		this.paddleShape.y = y;
 	}
+	
+	
 	public RectangularShape getBounds(){
 		return this.paddleShape.getBounds();
 	}
 
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT)
@@ -80,4 +88,7 @@ public class Paddle implements Moveable, Drawable, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
 }

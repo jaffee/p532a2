@@ -9,6 +9,8 @@ public class BallMoveCommand implements Commandable {
 	private Ball ball;
 	private double prevX, prevY;
 	private double prevSpeedX, prevSpeedY;
+	
+	
 	public BallMoveCommand(Ball ball, Component gameBoard, ArrayList<Moveable> moveables){
 		this.ball = ball;
 		this.gameBoard = gameBoard;
@@ -19,9 +21,11 @@ public class BallMoveCommand implements Commandable {
 		this.prevSpeedY = ball.getSpeedY();
 		
 	}
+	
 	public Commandable getCopy(){
 		return new BallMoveCommand(this.getBall(), this.gameBoard, this.moveables);
 	}
+	
 	public void execute(){
 		this.prevX = ball.getX();
 		this.prevY = ball.getY();
@@ -29,12 +33,14 @@ public class BallMoveCommand implements Commandable {
 		this.prevSpeedY = ball.getSpeedY();
 		ball.move(moveables, gameBoard.getSize());
 	}
+	
 	public void undo(){
 		ball.setX(prevX);
 		ball.setY(prevY);
 		ball.setSpeedX(prevSpeedX);
 		ball.setSpeedY(prevSpeedY);
 	}
+	
 	public Ball getBall(){
 		return this.ball;
 	}

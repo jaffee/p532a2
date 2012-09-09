@@ -1,7 +1,6 @@
 package breakout;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class PaddleMoveCommand implements Commandable {
@@ -9,6 +8,8 @@ public class PaddleMoveCommand implements Commandable {
 	private Component gameBoard;
 	private ArrayList<Moveable> moveables;
 	private double prev_x, prev_y;
+	
+	
 	public PaddleMoveCommand(Paddle paddle, Component gameBoard, ArrayList<Moveable> moveables){
 		this.paddle = paddle;
 		this.gameBoard = gameBoard;
@@ -16,18 +17,22 @@ public class PaddleMoveCommand implements Commandable {
 		this.prev_x = paddle.getX();
 		this.prev_y = paddle.getY();
 	}
+	
 	public Commandable getCopy(){
 		return new PaddleMoveCommand(this.getPaddle(), this.gameBoard, this.moveables);
 	}
+	
 	public void execute(){
 		this.prev_x = paddle.getX();
 		this.prev_y = paddle.getY();
 		paddle.move(moveables, gameBoard.getSize());
 	}
+	
 	public void undo(){
 		paddle.setX(prev_x);
 		paddle.setY(prev_y);
 	}
+	
 	public Paddle getPaddle(){
 		return this.paddle;
 	}

@@ -1,5 +1,7 @@
 package breakout;
 
+import java.util.Random;
+
 public class Loader {
 
 	/**
@@ -7,6 +9,8 @@ public class Loader {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Random r = new Random();
+		
 		Board board = new Board();
 		Breakout breakout = new Breakout(board);
 		
@@ -18,11 +22,17 @@ public class Loader {
 		breakout.registerKeyListener(paddle);
 		
 		Ball ball = new Ball();
-		ball.setSpeed(3, 3);
+		ball.setSpeed(r.nextInt(4)+1, r.nextInt(4)+1);
 		BallMoveCommand ballMoveCommand = new BallMoveCommand(ball, board.getGamePanel(), breakout.getMoveables());
 		breakout.registerCommand(ballMoveCommand);
 		breakout.registerDrawable(ball);
 		breakout.registerMoveable(ball);
+		
+		Brick brick1 = new Brick(50, 50);
+		BrickMoveCommand brickMoveCommand = new BrickMoveCommand(brick1, board.getGamePanel(), breakout.getMoveables());
+		breakout.registerCommand(brickMoveCommand);
+		breakout.registerDrawable(brick1);
+		breakout.registerMoveable(brick1);
 		
 		Clock clock = new Clock();
 		ClockMoveCommand clockMoveCommand = new ClockMoveCommand(clock, board.getGamePanel());
