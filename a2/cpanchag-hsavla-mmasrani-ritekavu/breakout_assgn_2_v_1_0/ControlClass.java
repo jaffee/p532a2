@@ -29,6 +29,7 @@ import javax.swing.Timer;
 public class ControlClass extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static double timerStates;
+	boolean pauseMode=false;
 	private static int timerTicksReplay = 0;
 	private static final int TIMER_DELAY = Constants.TIMER_DELAY;
 	private static int count = 0;
@@ -66,7 +67,10 @@ public class ControlClass extends JPanel {
 		this.scorePanel = scorePanel;
 		daemonThread = new TimerHandler();
 		actionHandler = new ButtonHandler();
+
 		board.addKeyListener(new PaddleMovementListener());
+		board.addKeyListener(new ButtonHandler());
+
 		board.setFocusable(true);
 		daemon = new Timer(TIMER_DELAY, daemonThread);
 		start = new JButton("START");
@@ -104,13 +108,13 @@ public class ControlClass extends JPanel {
 	 *            this variable contains the number of bricks in the array
 	 * @param score
 	 *            this variable contains the score of the player */
-	class ButtonHandler implements ActionListener {
+	class ButtonHandler implements ActionListener, KeyListener {
 
 		public void actionPerformed(ActionEvent action) {
 
 			// start buton pressed
 			if (action.getActionCommand().equals("START")) {
-
+				pauseMode=false;
 				brickCount = Constants.BRICK_COUNT;
 				clockTick = 0;
 				if (!savedObjectStates.isEmpty())
@@ -125,13 +129,22 @@ public class ControlClass extends JPanel {
 
 				// sets the ball in random direction
 				Random r=new Random();
-				double d1=0,d2=0;
-				do 
-				{	d1=r.nextDouble();
-					d2=r.nextDouble();
-				} while (!((6-d1*12)<3 || (6-d1*12)>3) && !((6-d2*12)<3 || (6-d2*12)>3));
-				double randomStartX=6-d1*12;
-				double randomStartY=6-d2*12;
+				double s1=0,s2=0;
+				int d1; 
+				d1=r.nextInt(2);
+				
+				//System.out.println("D: X Y"+d1+" "+d2);
+				double randomStartX;
+				s1=r.nextDouble();
+				s2=r.nextDouble();
+				if(d1==0){
+					randomStartX=1+s1*4;
+				}
+				else {
+					randomStartX=-1-s1*4;
+				}
+					
+				double randomStartY=1+s2*4;
 				
 				// initialize the ball and paddle
 				ball.setX(Constants.BALL_INTIAL_XVALUE);
@@ -146,7 +159,7 @@ public class ControlClass extends JPanel {
 				board.draw();		
 			} 
 			// undo button presses
-			else if (action.getActionCommand().equals("UNDO")) {
+			else if (action.getActionCommand().equals("UNDO") && pauseMode) {
 
 				if (undoButtonPressedFirstTime) {
 					if (savedObjectStates.size() != 0) {
@@ -188,11 +201,14 @@ public class ControlClass extends JPanel {
 					board.requestFocus(false);
 					undoButtonPressedFirstTime = true;
 					board.draw();
+					
 
 				}
 				else
 					daemon.start();
 				board.requestFocus(true);
+				pauseMode=!pauseMode;
+				
 			}
 		}
 
@@ -227,6 +243,52 @@ public class ControlClass extends JPanel {
 			String clockTimeString = new Double(timerStates).toString();
 			scorePanel.setClock(clockTimeString);
 			board.draw();
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getKeyChar()=='u' && pauseMode){
+					
+				if (undoButtonPressedFirstTime) {
+					if (savedObjectStates.size() != 0) {
+						updateTimer();
+						whichPrevBallUndoObject = savedObjectStates.size() - 1;
+						brickPresentChecker(whichPrevBallUndoObject);
+						savedObjectStates.get(whichPrevBallUndoObject).getBallMoveCommand().undo();
+						savedObjectStates.get(whichPrevBallUndoObject).getPaddleMoveCommand().undo();
+						undoButtonPressedFirstTime = false;
+						savedObjectStates.remove(whichPrevBallUndoObject);
+						whichPrevBallUndoObject -= 1;
+					}
+				} else {
+
+					if (savedObjectStates.size() != 0) {
+						updateTimer();
+						brickPresentChecker(whichPrevBallUndoObject);
+						savedObjectStates.get(whichPrevBallUndoObject).getBallMoveCommand().undo();
+						savedObjectStates.get(whichPrevBallUndoObject).getPaddleMoveCommand().undo();
+						savedObjectStates.remove(whichPrevBallUndoObject);
+						whichPrevBallUndoObject -= 1;
+					}
+				}
+
+				board.draw();
+
+				
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 
