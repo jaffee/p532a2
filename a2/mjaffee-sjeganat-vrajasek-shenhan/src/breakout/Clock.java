@@ -46,7 +46,7 @@ public class Clock implements Moveable, Drawable {
 
 	@Override
 	public void move(ArrayList<Moveable> moveables, Dimension boardSize) {
-		clockValue += Breakout.TIMER_DELAY;
+		clockValue += GameController.TIMER_DELAY;
 	}
 
 	@Override

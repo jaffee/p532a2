@@ -84,19 +84,19 @@ public class Board implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().contentEquals("START")){
-			Breakout.gamePaused = false;
+			GameController.gamePaused = false;
 		}
 		else if(e.getActionCommand().contentEquals("PAUSE")){
-			Breakout.gamePaused = true;
+			GameController.gamePaused = true;
 		}
 		else if(e.getActionCommand().contentEquals("UNDO")){
-			Breakout.undoPressed = true;
+			GameController.undoPressed = true;
 		}
 		else if(e.getActionCommand().contentEquals("REPLAY")){
-			Breakout.replayPressed = true;
+			GameController.replayPressed = true;
 		}
 		else if(e.getActionCommand().contentEquals("RESTART")){
-			Breakout.resetPressed = true;
+			GameController.resetPressed = true;
 		}
 		
 		this.frame.requestFocusInWindow();
