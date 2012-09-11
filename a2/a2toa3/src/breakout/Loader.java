@@ -2,6 +2,15 @@ package breakout;
 
 import java.util.Random;
 
+import breakout.commands.BallMoveCommand;
+import breakout.commands.BrickMoveCommand;
+import breakout.commands.ClockMoveCommand;
+import breakout.commands.PaddleMoveCommand;
+import breakout.gameObjects.Ball;
+import breakout.gameObjects.Brick;
+import breakout.gameObjects.Clock;
+import breakout.gameObjects.Paddle;
+
 public class Loader {
 
 	/**

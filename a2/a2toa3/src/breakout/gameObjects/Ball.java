@@ -1,4 +1,4 @@
-package breakout;
+package breakout.gameObjects;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import breakout.Drawable;
+import breakout.Moveable;
 
 public class Ball implements Moveable, Drawable {
 	private double speedX, speedY;

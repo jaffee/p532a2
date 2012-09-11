@@ -1,4 +1,4 @@
-package breakout;
+package breakout.gameObjects;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
+
+import breakout.Drawable;
+import breakout.Moveable;
 
 public class Brick implements Moveable,Drawable,Cloneable {
 	

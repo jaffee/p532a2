@@ -1,7 +1,11 @@
-package breakout;
+package breakout.commands;
 
 import java.awt.Component;
 import java.util.ArrayList;
+
+import breakout.Commandable;
+import breakout.Moveable;
+import breakout.gameObjects.Brick;
 
 public class BrickMoveCommand implements Commandable {
 	private Component gameBoard;

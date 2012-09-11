@@ -1,6 +1,9 @@
-package breakout;
+package breakout.commands;
 
 import java.awt.Component;
+
+import breakout.Commandable;
+import breakout.gameObjects.Clock;
 
 public class ClockMoveCommand implements Commandable {
 	private Component gameBoard;

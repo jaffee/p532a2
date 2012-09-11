@@ -1,6 +1,8 @@
-package breakout;
+package breakout.commands;
 
 import java.util.ArrayList;
+
+import breakout.Commandable;
 
 public class CommandGroup implements Commandable {
 	private ArrayList<Commandable> commands;

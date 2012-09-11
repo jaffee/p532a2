@@ -1,4 +1,4 @@
-package breakout;
+package breakout.gameObjects;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,10 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
+
+import breakout.Drawable;
+import breakout.GameController;
+import breakout.Moveable;
 
 
 public class Clock implements Moveable, Drawable {

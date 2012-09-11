@@ -1,7 +1,11 @@
-package breakout;
+package breakout.commands;
 
 import java.awt.Component;
 import java.util.ArrayList;
+
+import breakout.Commandable;
+import breakout.Moveable;
+import breakout.gameObjects.Paddle;
 
 public class PaddleMoveCommand implements Commandable {
 	private Paddle paddle;

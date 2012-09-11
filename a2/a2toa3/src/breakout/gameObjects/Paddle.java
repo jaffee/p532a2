@@ -1,4 +1,4 @@
-package breakout;
+package breakout.gameObjects;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,17 +10,20 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
+import breakout.Drawable;
+import breakout.Moveable;
+
 
 public class Paddle implements Moveable, Drawable, KeyListener {
 	private static final int DEFAULT_WIDTH = 50;
 	private static final int DEFAULT_HEIGHT = 10;
 	private static final int INITIAL_X = 10;
 	private static final int INITIAL_Y = 280;
+	private double paddleOffset = 30; //how far paddle is from bottom of screen
 	private static final Color DEFAULT_COLOR = Color.black;
 	private double speed = 3;
 	private Color color;
 	private double dx = 0;
-	private double dy = 0;
 	Rectangle2D.Double paddleShape; //// I'd like this to be more generic, but I'm not sure how
 	
 	public Paddle(){
@@ -38,9 +41,8 @@ public class Paddle implements Moveable, Drawable, KeyListener {
 		double x = this.paddleShape.getX();
 		x+=this.dx;
 		this.paddleShape.x=x;
-		double y = this.paddleShape.getY();
-		y+=this.dy;
-		this.paddleShape.y=y;
+		
+		this.paddleShape.y = boardSize.getHeight()-this.paddleOffset;
 		//needs collision logic
 	}
 	
@@ -76,7 +78,6 @@ public class Paddle implements Moveable, Drawable, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT)
 			dx=0;
 		if(e.getKeyCode()==KeyEvent.VK_LEFT)
